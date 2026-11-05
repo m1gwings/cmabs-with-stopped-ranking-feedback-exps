@@ -1,0 +1,32 @@
+{
+  "seed": 104729,
+  "horizon": 1000000,
+  "repetitions_per_setting": 20,
+  "independent_runs": 320,
+  "verified_aggregate_points": 3200,
+  "ews_commit": "4ba0dd60e43e8dabae5b5f879cde01f6765418db",
+  "validation": "All requested per-run metric checksums, completion states, repetition identities, means and sample SEM recomputed and checked.",
+  "confidence_level": 0.95,
+  "confidence_interval_formula": "mean +/- t.ppf(.975, count-1) * SEM",
+  "resolved_config_sha256": "66951084e32fea3d97de21c48dd146a2306be047d0ce2a9874c8170582937bc3",
+  "csv_serialization": "LF line endings; numeric fields preserved verbatim",
+  "exporter_sha256": "34ae9005fac80badcb79045593254e1539b590a8898686fbbceea89954df744b",
+  "source_modules_sha256": {
+    "experiment_code/__init__.py": "fda18e6ed94dc8257e2601894e9e3af1b3403a0f81355498ce043df58866d8aa",
+    "experiment_code/baselines.py": "1dac0b7554a3c5c305379778e249463abc24a5ae9b791b04ce8b45c0dc4cb716",
+    "experiment_code/data.py": "00b6f0e7748fdbf12b8c5296bf5b6658d501e108aa2573edd199d98f1f905f93",
+    "experiment_code/figures.py": "c34a73688d605d69c9df328e53a4ea5ae920f0832f73704df93786c9efaf9bb1",
+    "experiment_code/metrics.py": "1be23669721127e79238116ce97f72aa28f0b1bf47189ab134e68653c404c2ad",
+    "experiment_code/stopped_data.py": "02e0f546df7169878b7ffad81e0d8d019ebabc6ea643f631cc7b3e4b77d13a7f",
+    "experiment_code/uif.py": "6da5ca11f3e5d456c185a8a49a35d59965c21676ce6523ad329e62f8140a6e23"
+  },
+  "files": {
+    "final_regret.csv": "0e8155457e4c043bd430dcddd0ab80d9f6242f64ae74af2d303af41ae60212af",
+    "regret.csv": "bf13f8de8d3e8b5c968b0060ccca8beda27b9d5e278cd2732ce974b02718b6ed",
+    "figures/cumulative_regret_theta0_0_3.tikz": "8fa40c7fbe7265a72858481c91b36d994c81af599144cc3feb6aea01eefbc263",
+    "figures/final_regret_vs_m.tikz": "cc1eee3f8c43eb73938bcc8c10de24d6b51d25786dd6b25d3e42e7a23b3c2003"
+  },
+  "simulation_source_commit": "4a564db",
+  "plot_generator": "scripts/plot_stopped_results.py",
+  "plot_generator_sha256": "3c122e85844b2987c64e2373cb9abd804c96918a434922d49ec63782d9947083"
+}

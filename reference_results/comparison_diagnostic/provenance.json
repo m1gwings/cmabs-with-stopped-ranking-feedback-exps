@@ -1,0 +1,49 @@
+{
+  "seed": 104729,
+  "theta": [
+    1.0,
+    0.8,
+    0.5,
+    0.2,
+    0.1
+  ],
+  "pivot": 3,
+  "item": 4,
+  "caps": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "outside_weights": [
+    0.0,
+    0.025,
+    0.05,
+    0.1,
+    0.2,
+    0.3,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "samples_per_outside_weight": 1000000,
+  "batch_size": 20000,
+  "confidence_level": 0.95,
+  "independent_rankings": 9000000,
+  "numpy_version": "1.26.4",
+  "cap_coupling": "Caps share exponential races within each outside weight; outside weights use separate SeedSequence child streams.",
+  "intervals": "Pointwise Wilson 95% binomial intervals; conditional-mean trials are observed comparisons.",
+  "validation": "All 36 settings independently rechecked: count identities, exact PL permutation probabilities, conditional means, and Wilson confidence limits.",
+  "config_sha256": "fd2ab371bb19d82c588b1b1f058dc43de5dad4f37425800ef3bcd9ee2853b54b",
+  "files": {
+    "comparison_diagnostic.csv": "1c226ff82e768896548efc617e125680e319b5c6fde26d06ba9600ca4cbb5d50",
+    "figures/comparison_frequency.tikz": "73102cdac25164c6f710aeb6218eed9c466e09878f33a5cabf3392f950d4874d",
+    "figures/comparison_conditional_mean.tikz": "f1f837791b7ac10fe77be61df6f69c117a42b6d8d31ac87e7ade3367c5246553"
+  },
+  "source_modules_sha256": {
+    "scripts/run_comparison_diagnostic.py": "84cbea2a9b70bb6b8003c67d143c600ecb0268a8dba1b3be3a03d326c212d112",
+    "experiment_code/comparison_diagnostic.py": "c7ec9c52185168d68c4b4a87b8d19dcd5980ef6877a9c8cb929e41dd733a50f0"
+  },
+  "plot_generator": "scripts/plot_comparison_diagnostic.py",
+  "plot_generator_sha256": "2f22e3e789b3b7853d7c87de7550ba0cccfd08f21c448c2a0e816ced4c192b03"
+}

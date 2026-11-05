@@ -1,0 +1,14 @@
+% Pointwise 95% Student-t confidence intervals.
+\begin{tikzpicture}
+\begin{axis}[width=\linewidth,height=0.75\linewidth,
+xmode=log,ymode=log,xlabel={Outside weight $\theta_0$},
+ylabel={Cumulative Top-$k$ Regret},grid=major,
+legend style={font=\scriptsize,cells={anchor=west}}]
+\addplot[blue,solid,mark=*,error bars/.cd,y dir=both,y explicit] coordinates {(0.001,35386.248) +- (0,1133.57815707) (0.003,34846.8156001) +- (0,835.416148081) (0.01,34949.55) +- (0,759.131856064) (0.03,34214.7866001) +- (0,965.180639446)};
+\addlegendentry{UIF (real pivot)}
+\addplot[orange,dashdotted,mark=*,error bars/.cd,y dir=both,y explicit] coordinates {(0.001,463316.208) +- (0,56.6914158829) (0.003,262445.482899) +- (0,7136.15746753) (0.01,82744.5295984) +- (0,1738.21981369) (0.03,33606.0637004) +- (0,495.944662786)};
+\addlegendentry{AOA-RB$_{\mathrm{PL}}$-Adaptive}
+\addplot[teal,dashed,mark=*,error bars/.cd,y dir=both,y explicit] coordinates {(0.001,463356.7961) +- (0,50.4656633026) (0.003,362801.8048) +- (0,2530.10403476) (0.01,169416.7614) +- (0,2840.70328295) (0.03,72947.2124996) +- (0,882.989657976)};
+\addlegendentry{AOA-RB$_{\mathrm{PL}}$}
+\end{axis}
+\end{tikzpicture}

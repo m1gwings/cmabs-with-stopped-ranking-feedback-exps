@@ -1,0 +1,270 @@
+name: journal_stopped_ranking
+seed: 104729
+runs:
+- name: stopped_m1
+  planner: grid
+  repetitions: 20
+  budget:
+    steps: 1000000
+  protocol:
+    type: online
+  data:
+    type: experiment_code.stopped_data:StoppedRankingBandit
+    params:
+      theta:
+      - 1
+      - 0.95
+      - 0.9
+      - 0.85
+      - 0.8
+      - 0.79
+      - 0.78
+      - 0.77
+      - 0.76
+      - 0.75
+      - 0.5
+      - 0.47
+      - 0.44
+      - 0.41
+      - 0.38
+      - 0.35
+      - 0.32
+      - 0.29
+      - 0.26
+      - 0.23
+      - 0.2
+      - 0.18
+      - 0.16
+      - 0.14
+      - 0.12
+      - 0.1
+      - 0.08
+      - 0.06
+      - 0.04
+      - 0.02
+      k: 5
+      theta0: 1.0
+      m: 1
+  algorithms:
+  - name: journal_uif
+    type: experiment_code.uif:RealPivotUIF
+    params:
+      n: 30
+      k: 5
+      horizon: 1000000
+      delta: 0.05
+      m: 1
+  grid:
+    data.params.theta0:
+    - 0.0
+    - 0.1
+    - 0.3
+    - 1.0
+- name: stopped_m2
+  planner: grid
+  repetitions: 20
+  budget:
+    steps: 1000000
+  protocol:
+    type: online
+  data:
+    type: experiment_code.stopped_data:StoppedRankingBandit
+    params:
+      theta:
+      - 1
+      - 0.95
+      - 0.9
+      - 0.85
+      - 0.8
+      - 0.79
+      - 0.78
+      - 0.77
+      - 0.76
+      - 0.75
+      - 0.5
+      - 0.47
+      - 0.44
+      - 0.41
+      - 0.38
+      - 0.35
+      - 0.32
+      - 0.29
+      - 0.26
+      - 0.23
+      - 0.2
+      - 0.18
+      - 0.16
+      - 0.14
+      - 0.12
+      - 0.1
+      - 0.08
+      - 0.06
+      - 0.04
+      - 0.02
+      k: 5
+      theta0: 1.0
+      m: 2
+  algorithms:
+  - name: journal_uif
+    type: experiment_code.uif:RealPivotUIF
+    params:
+      n: 30
+      k: 5
+      horizon: 1000000
+      delta: 0.05
+      m: 2
+  grid:
+    data.params.theta0:
+    - 0.0
+    - 0.1
+    - 0.3
+    - 1.0
+- name: stopped_m3
+  planner: grid
+  repetitions: 20
+  budget:
+    steps: 1000000
+  protocol:
+    type: online
+  data:
+    type: experiment_code.stopped_data:StoppedRankingBandit
+    params:
+      theta:
+      - 1
+      - 0.95
+      - 0.9
+      - 0.85
+      - 0.8
+      - 0.79
+      - 0.78
+      - 0.77
+      - 0.76
+      - 0.75
+      - 0.5
+      - 0.47
+      - 0.44
+      - 0.41
+      - 0.38
+      - 0.35
+      - 0.32
+      - 0.29
+      - 0.26
+      - 0.23
+      - 0.2
+      - 0.18
+      - 0.16
+      - 0.14
+      - 0.12
+      - 0.1
+      - 0.08
+      - 0.06
+      - 0.04
+      - 0.02
+      k: 5
+      theta0: 1.0
+      m: 3
+  algorithms:
+  - name: journal_uif
+    type: experiment_code.uif:RealPivotUIF
+    params:
+      n: 30
+      k: 5
+      horizon: 1000000
+      delta: 0.05
+      m: 3
+  grid:
+    data.params.theta0:
+    - 0.0
+    - 0.1
+    - 0.3
+    - 1.0
+- name: stopped_m4
+  planner: grid
+  repetitions: 20
+  budget:
+    steps: 1000000
+  protocol:
+    type: online
+  data:
+    type: experiment_code.stopped_data:StoppedRankingBandit
+    params:
+      theta:
+      - 1
+      - 0.95
+      - 0.9
+      - 0.85
+      - 0.8
+      - 0.79
+      - 0.78
+      - 0.77
+      - 0.76
+      - 0.75
+      - 0.5
+      - 0.47
+      - 0.44
+      - 0.41
+      - 0.38
+      - 0.35
+      - 0.32
+      - 0.29
+      - 0.26
+      - 0.23
+      - 0.2
+      - 0.18
+      - 0.16
+      - 0.14
+      - 0.12
+      - 0.1
+      - 0.08
+      - 0.06
+      - 0.04
+      - 0.02
+      k: 5
+      theta0: 1.0
+      m: 4
+  algorithms:
+  - name: journal_uif
+    type: experiment_code.uif:RealPivotUIF
+    params:
+      n: 30
+      k: 5
+      horizon: 1000000
+      delta: 0.05
+      m: 4
+  grid:
+    data.params.theta0:
+    - 0.0
+    - 0.1
+    - 0.3
+    - 1.0
+execution:
+  workers: 2
+  checkpoint_seconds: 120
+  checkpoint_steps: 10000
+  keep_checkpoints: 2
+  compression: true
+recording:
+  every_steps: 1
+  fields:
+  - action
+  buffer_bytes: 1048576
+  retention: until_analyzed
+  metric_retention: keep
+display:
+  timezone: Europe/Rome
+analysis:
+  points: 200
+  metrics:
+  - name: regret
+    type: experiment_code.metrics:TopKRegret
+  aggregator:
+    type: repeated_runs
+    group_by:
+    - group
+    - algorithm.name
+    - data.params.theta0
+    - data.params.m
+    reduce_over: repetition
+    summary: mean
+    uncertainty: standard_error
+  figures: []
