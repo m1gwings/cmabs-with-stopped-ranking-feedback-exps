@@ -37,7 +37,7 @@ def generate(source):
     out=source/'figures';out.mkdir(exist_ok=True)
     common=r'width=\linewidth,height=.74\linewidth,font=\small,grid=major,grid style={gray!20},xlabel={Outside weight $\theta_0$},xmin=0,xmax=1,xtick={0,.25,.5,.75,1}'
     frequency_lines=['% Exact PL references and empirical pointwise 95% Wilson intervals.',r'\begin{tikzpicture}',r'\begin{axis}['+common+r',ylabel={Comparison frequency},ymin=0,ymax=1.04,legend pos=north east,legend style={font=\small,cells={anchor=west}}]']
-    mean_lines=['% Same colors/markers as the frequency panel; dashed black line is 1/3.',r'\begin{tikzpicture}',r'\begin{axis}['+common+r',ylabel={Conditional win fraction},ymin=.326,ymax=.340,scaled y ticks=false,ytick={.326,.330,.333333333333,.336,.340},yticklabels={0.326,0.330,$1/3$,0.336,0.340}]',r'\addplot[black,dashed,thick,domain=0:1,samples=2] {1/3};']
+    mean_lines=['% Same colors/markers as the frequency panel; dashed black line is 1/3.',r'\begin{tikzpicture}',r'\begin{axis}['+common+r',ylabel={Conditional win fraction},ymin=0,ymax=1.04,extra y ticks={0.333333333333},extra y tick labels={$1/3$}]',r'\addplot[black,dashed,thick,domain=0:1,samples=2] {1/3};']
     for cap,color,mark in zip(provenance['caps'],COLORS,MARKS):
         selected=sorted([r for r in rows if int(r['m'])==cap],key=lambda r:float(r['theta0']))
         exact=' '.join(f'({t:.12g},{exact_probabilities(theta,float(t),pivot,item,cap)[0]:.12g})' for t in np.linspace(0,1,101))

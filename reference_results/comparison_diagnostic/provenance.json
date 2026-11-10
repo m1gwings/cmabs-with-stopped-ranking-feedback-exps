@@ -38,12 +38,12 @@
   "files": {
     "comparison_diagnostic.csv": "1c226ff82e768896548efc617e125680e319b5c6fde26d06ba9600ca4cbb5d50",
     "figures/comparison_frequency.tikz": "73102cdac25164c6f710aeb6218eed9c466e09878f33a5cabf3392f950d4874d",
-    "figures/comparison_conditional_mean.tikz": "f1f837791b7ac10fe77be61df6f69c117a42b6d8d31ac87e7ade3367c5246553"
+    "figures/comparison_conditional_mean.tikz": "b33c4d3ffc3f62af98bbd101d1837ea04006545f2532e44c657ca4fec25bfd27"
   },
   "source_modules_sha256": {
     "scripts/run_comparison_diagnostic.py": "84cbea2a9b70bb6b8003c67d143c600ecb0268a8dba1b3be3a03d326c212d112",
     "experiment_code/comparison_diagnostic.py": "c7ec9c52185168d68c4b4a87b8d19dcd5980ef6877a9c8cb929e41dd733a50f0"
   },
   "plot_generator": "scripts/plot_comparison_diagnostic.py",
-  "plot_generator_sha256": "2f22e3e789b3b7853d7c87de7550ba0cccfd08f21c448c2a0e816ced4c192b03"
+  "plot_generator_sha256": "95f4abbf6d2290411e112bf43e20bacc767c73a354fdf98d3080bc978a3f5588"
 }
