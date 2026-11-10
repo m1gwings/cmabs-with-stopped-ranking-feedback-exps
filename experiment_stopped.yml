@@ -267,4 +267,7 @@ analysis:
     reduce_over: repetition
     summary: mean
     uncertainty: standard_error
-  figures: []
+  figures:
+  - name: stopped_ranking
+    type: experiment_code.figures:StoppedRankingFigures
+    metric: regret

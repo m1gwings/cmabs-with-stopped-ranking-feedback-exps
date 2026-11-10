@@ -16,7 +16,7 @@ git clone https://github.com/m1gwings/cmabs-with-stopped-ranking-feedback-exps.g
 cd cmabs-with-stopped-ranking-feedback-exps
 python -m venv .venv
 source .venv/bin/activate
-python -m pip install -r requirements.lock.txt
+python -m pip install -r requirements.txt
 ```
 
 Run the MNL and stopped-ranking studies with:
@@ -47,12 +47,12 @@ cd ..
 Run the fixed-assortment comparison diagnostic with:
 
 ```bash
-python scripts/run_comparison_diagnostic.py diagnostic_comparison.json outputs/comparison_diagnostic
+ews run experiment_diagnostic.yml --output outputs/comparison_diagnostic
 ```
 
-Check the implementations with `python -m unittest discover -s tests -v`.
-For the fixed-length component tests, install `requirements-dev.txt`, then run
-`python -m pytest tests -q` from `fixed_length/`.
+Every command runs the simulations, analysis and configured TikZ figures. The
+diagnostic is one atomic trial: caps share rankings within each outside weight,
+and an interrupted trial restarts from the beginning.
 
 ## Experiments
 
@@ -88,16 +88,21 @@ TikZ figures are included in:
 - [`reference_results/comparison_diagnostic/`](reference_results/comparison_diagnostic/): comparison diagnostic.
 
 These are aggregate exports; unaggregated per-run trajectories are not included.
-Figures can be regenerated from the included aggregate results with:
+Figures are written under `OUTPUT/analysis/figures/`. To regenerate them from
+saved EWS output without repeating the simulations, use the matching configuration:
 
 ```bash
-python scripts/plot_stopped_results.py reference_results/stopped_ranking
-python scripts/plot_comparison_diagnostic.py reference_results/comparison_diagnostic
+ews plot experiment.yml --output outputs/mnl
+ews plot experiment_stopped.yml --output outputs/stopped_ranking
+ews plot experiment_diagnostic.yml --output outputs/comparison_diagnostic
 ```
 
-To regenerate MNL plots from a completed EWS output, use
-`ews plot experiment.yml --output outputs/mnl`. For fixed-length plots, run
-`ews plot experiment.yml --output ../outputs/fixed_length` from `fixed_length/`.
+For fixed-length plots, run `ews plot experiment.yml --output ../outputs/fixed_length`
+from `fixed_length/`, or substitute the configuration and output for a gap variant.
+The included reference CSVs and TikZ files are standalone aggregate exports, not
+EWS output directories. Their provenance records describe the original runs;
+the diagnostic now uses EWS random streams, so its Monte Carlo counts can differ.
+
 The TikZ plots inherit the fonts of the LaTeX document. Load `pgfplots`, its
 `fillbetween` library, and `fix-cm`, and set `\pgfplotsset{compat=1.18}` before
 using `\input{PATH/NAME.tikz}`.
