@@ -50,9 +50,7 @@ Run the fixed-assortment comparison diagnostic with:
 ews run experiment_diagnostic.yml --output outputs/comparison_diagnostic
 ```
 
-Every command runs the simulations, analysis and configured TikZ figures. The
-diagnostic is one atomic trial: caps share rankings within each outside weight,
-and an interrupted trial restarts from the beginning.
+Every command runs the simulations, analysis and configured TikZ figures.
 
 ## Experiments
 
@@ -87,7 +85,6 @@ TikZ figures are included in:
 - [`reference_results/stopped_ranking/`](reference_results/stopped_ranking/): stopped-ranking study.
 - [`reference_results/comparison_diagnostic/`](reference_results/comparison_diagnostic/): comparison diagnostic.
 
-These are aggregate exports; unaggregated per-run trajectories are not included.
 Figures are written under `OUTPUT/analysis/figures/`. To regenerate them from
 saved EWS output without repeating the simulations, use the matching configuration:
 
@@ -99,13 +96,6 @@ ews plot experiment_diagnostic.yml --output outputs/comparison_diagnostic
 
 For fixed-length plots, run `ews plot experiment.yml --output ../outputs/fixed_length`
 from `fixed_length/`, or substitute the configuration and output for a gap variant.
-The included reference CSVs and TikZ files are standalone aggregate exports, not
-EWS output directories. Their provenance records describe the original runs;
-the diagnostic now uses EWS random streams, so its Monte Carlo counts can differ.
-
-The TikZ plots inherit the fonts of the LaTeX document. Load `pgfplots`, its
-`fillbetween` library, and `fix-cm`, and set `\pgfplotsset{compat=1.18}` before
-using `\input{PATH/NAME.tikz}`.
 
 ## Cite This Work
 
