@@ -64,20 +64,18 @@ for a total of 760 learning runs. The diagnostic samples nine million rankings.
 | --- | --- | --- | ---: |
 | Fixed-length ranking | 400 arms, k=m=2; ranking gaps 0.05, 0.1 and 0.2 | UIF and RecMaxMinUCB | 120 |
 | Feedback level | 16 arms, k=6, m in {1,2,3,6} | UIF | 80 |
-| MNL feedback | 30 arms, k=5, m=1, outside parameter in {0.001,0.003,0.01,0.03} | Real-pivot UIF, AOA-RB-PL and AOA-RB-PL-Adaptive | 240 |
-| Stopped ranking | 30 arms, k=5, m in {1,2,3,4}, outside parameter in {0,0.1,0.3,1} | Real-pivot UIF | 320 |
+| MNL feedback | 30 arms, k=5, m=1, outside parameter in {0.001,0.003,0.01,0.03} | UIF, AOA-RB-PL and AOA-RB-PL-Adaptive | 240 |
+| Stopped ranking | 30 arms, k=5, m in {1,2,3,4}, outside parameter in {0,0.1,0.3,1} | UIF | 320 |
 | Comparison diagnostic | Five offered arms; caps 1–4 and nine outside parameters | Exact PL probabilities and empirical comparisons | 9 million rankings |
 
 The MNL and stopped-ranking studies share the real-arm parameters
 `[1.00,0.95,0.90,0.85,0.80,0.79,0.78,0.77,0.76,0.75,0.50,0.47,0.44,0.41,0.38,0.35,0.32,0.29,0.26,0.23,0.20,0.18,0.16,0.14,0.12,0.10,0.08,0.06,0.04,0.02]`.
-The gap between the fifth and sixth arms is 0.01. UIF uses a real-arm pivot
-throughout these studies and receives no outside parameter.
+The gap between the fifth and sixth arms is 0.01.
 
 Regret is cumulative mean-preference top-k regret. Learning curves and error
 bars show pointwise 95% Student-t confidence intervals for the mean over 20
 trials. The diagnostic reports pointwise 95% Wilson intervals for frequencies
-and conditional win probabilities. Scientific details and source attribution
-are in [notes/reproduction.md](notes/reproduction.md).
+and conditional win probabilities.
 
 ## Results and Figures
 
