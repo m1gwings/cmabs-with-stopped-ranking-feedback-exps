@@ -226,7 +226,6 @@ class PaperFigures:
         for group, filename in (
             ("comparison", "cumulative_regret"),
             ("feedback", "final_regret_vs_m"),
-            ("mnl", "final_regret_vs_theta0"),
         ):
             selected = [s for s in summaries if s.labels["group"] == group]
             if not selected:
@@ -291,28 +290,15 @@ class PaperFigures:
                         r"ylabel={Cumulative Top-$k$ Regret ($10^3$)}",
                     ]
             else:
-                key = "data.params.m" if group == "feedback" else "data.params.theta0"
+                key = "data.params.m"
                 values = sorted({s.labels[key] for s in selected})
-                options += (
-                    [
-                        r"xlabel={Feedback Level $m$}",
-                        "xtick={" + ",".join(f"{v:.12g}" for v in values) + "}",
-                        "ymin=0",
-                        "scaled y ticks=false",
-                        "yticklabel style={/pgf/number format/1000 sep={}}",
-                    ]
-                    if group == "feedback"
-                    else [
-                        r"xlabel={``No-Choice'' Parameter $\theta_0$}",
-                        "xmode=log",
-                        "ymode=log",
-                        "xtick={" + ",".join(f"{v:.12g}" for v in values) + "}",
-                        "xticklabels={"
-                        + ",".join(self._log_tick_label(v) for v in values)
-                        + "}",
-                        "legend style={at={(0.02,0.24)},anchor=south west}",
-                    ]
-                )
+                options += [
+                    r"xlabel={Feedback Level $m$}",
+                    "xtick={" + ",".join(f"{v:.12g}" for v in values) + "}",
+                    "ymin=0",
+                    "scaled y ticks=false",
+                    "yticklabel style={/pgf/number format/1000 sep={}}",
+                ]
                 series = []
                 for name in sorted({s.labels["algorithm.name"] for s in selected}):
                     rows = sorted(
@@ -340,15 +326,6 @@ class PaperFigures:
             styles = {
                 "topk_uif": ("paperblue,solid", r"\textsc{Top-$k$-UIF}"),
                 "rec_maxmin_ucb": ("paperorange,dashed", r"\textsc{RecMaxMinUCB}"),
-                "mnl_topk_uif": ("paperblue,solid", r"\textsc{MNL-Top-$k$-UIF}"),
-                "sg_adaptive": (
-                    "paperorange,dashdotted",
-                    r"\textsc{AOA-RB}$_{\mathrm{PL}}$-\textsc{Adaptive}",
-                ),
-                "sg_no_choice": (
-                    "papergreen,dashed",
-                    r"\textsc{AOA-RB}$_{\mathrm{PL}}$",
-                ),
             }
             # Match the manuscript's legend ordering.
             series.sort(key=lambda row: list(styles).index(row[0]))
@@ -395,14 +372,6 @@ class PaperFigures:
             path.write_text("\n".join(lines))
             files.append(path)
         return files
-
-    @staticmethod
-    def _log_tick_label(value):
-        """Label every configured log-grid point, including non-decade values."""
-        exponent = int(np.floor(np.log10(value)))
-        mantissa = value / 10**exponent
-        prefix = "" if np.isclose(mantissa, 1) else rf"{mantissa:g}\cdot "
-        return rf"${prefix}10^{{{exponent}}}$"
 
 
 MARKS = ["*", "square*", "triangle*", "diamond*"]
