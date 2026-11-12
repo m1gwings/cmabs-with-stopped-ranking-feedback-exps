@@ -54,7 +54,8 @@ ews plot experiment_mnl.yml --output outputs/mnl
 ```
 
 Use the corresponding configuration and output directory for any other experiment.
-Figures are written under `OUTPUT/analysis/figures/`.
+Figures are written in `analysis/figures/` inside the directory passed to `--output`,
+for example `outputs/mnl/analysis/figures/` for the MNL study.
 
 ## Code and Configuration
 
