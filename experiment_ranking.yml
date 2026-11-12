@@ -81,11 +81,7 @@ runs:
       horizon: 1000000
       delta: 0.05
   grid:
-    data.params.m:
-    - 1
-    - 2
-    - 3
-    - 6
+    data.params.m: [1, 2, 3, 6]
 execution:
   workers: 2
   checkpoint_seconds: 120
@@ -94,8 +90,7 @@ execution:
   keep_checkpoints: 2
 recording:
   every_steps: 1
-  fields:
-  - action
+  fields: [action]
   buffer_bytes: 1048576
   retention: until_analyzed
   metric_retention: keep
@@ -107,11 +102,7 @@ analysis:
   - name: regret
     type: experiment_code.metrics:TopKRegret
   aggregator:
-    group_by:
-    - group
-    - algorithm.name
-    - data.params.m
-    - data.params.theta0
+    group_by: [group, algorithm.name, data.params.m, data.params.theta0]
     uncertainty: standard_error
   figures:
   - name: paper

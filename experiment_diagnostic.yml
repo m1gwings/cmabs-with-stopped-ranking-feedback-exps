@@ -1,39 +1,22 @@
 name: journal_comparison_diagnostic
-seed: 104729
+seed: &root_seed 104729
 runs:
 - name: comparison
   repetitions: 1
   protocol:
     type: trial
     params:
-      function: experiment_code.comparison_diagnostic:comparison_trial
-      params: &id001
-        theta:
-        - 1.0
-        - 0.8
-        - 0.5
-        - 0.2
-        - 0.1
+      function: experiment_code.data:comparison_trial
+      params: &diagnostic
+        theta: [1.0, 0.8, 0.5, 0.2, 0.1]
         pivot: 3
         item: 4
-        caps:
-        - 1
-        - 2
-        - 3
-        - 4
-        outside_weights:
-        - 0.0
-        - 0.025
-        - 0.05
-        - 0.1
-        - 0.2
-        - 0.3
-        - 0.5
-        - 0.75
-        - 1.0
+        caps: [1, 2, 3, 4]
+        outside_weights: [0.0, 0.025, 0.05, 0.1, 0.2, 0.3, 0.5, 0.75, 1.0]
         samples_per_outside_weight: 1000000
         batch_size: 20000
         confidence_level: 0.95
+        sampling_seed: *root_seed
   data:
     type: 'null'
   algorithms:
@@ -43,21 +26,19 @@ execution:
   workers: 1
 recording:
   every_steps: 1
-  fields:
-  - counts
+  fields: [counts]
 analysis:
   metrics:
   - name: counts
-    type: experiment_code.comparison_diagnostic:ComparisonCounts
+    type: experiment_code.metrics:ComparisonCounts
   aggregator:
     type: repeated_runs
-    group_by:
-    - group
+    group_by: [group]
     reduce_over: repetition
     summary: mean
     uncertainty: standard_error
   figures:
   - name: comparison
-    type: experiment_code.diagnostic_figures:ComparisonFigures
+    type: experiment_code.figures:ComparisonFigures
     metric: counts
-    params: *id001
+    params: *diagnostic

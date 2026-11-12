@@ -29,3 +29,13 @@ class TopKRegret:
             )
         )
         return MetricResult(x=result["step"][indices], values=cumulative[indices])
+
+
+class ComparisonCounts:
+    """Expose the trial's count vector to EWS analysis without averaging trials."""
+
+    required_fields = ("counts",)
+
+    def compute(self, result):
+        counts = np.asarray(result["counts"][-1]).ravel()
+        return MetricResult(x=np.arange(len(counts)), values=counts)

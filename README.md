@@ -5,11 +5,9 @@ Cristiano Migali, Gianmarco Genalti, Alberto Maria Metelli, and Marco Mussi
 Code and aggregate results for *Worst-Case Regret Bounds for Combinatorial Bandits
 with Stopped Ranking Feedback*.
 
-## How to Run the Experiments
+## Setup
 
-The experiments use [Experiments W/O Stress (EWS)](https://github.com/m1gwings/experiments-wo-stress).
-You need Python 3.12 and Git. Clone this repository and install the pinned
-packages in a virtual environment:
+Use Python 3.12 and Git. Install the pinned dependencies in a virtual environment:
 
 ```bash
 git clone https://github.com/m1gwings/cmabs-with-stopped-ranking-feedback-exps.git
@@ -19,83 +17,86 @@ source .venv/bin/activate
 python -m pip install -r requirements.txt
 ```
 
-Run the MNL and stopped-ranking studies with:
+## Run an Experiment
+
+Each experiment has one YAML configuration. Run every command from the repository
+root. [Experiments W/O Stress (EWS)](https://github.com/m1gwings/experiments-wo-stress)
+runs the simulations, computes regret and writes the configured TikZ figures:
 
 ```bash
-ews run experiment.yml --output outputs/mnl --workers 2
+ews run experiment_mnl.yml --output outputs/mnl --workers 2
+```
+
+Choose the configuration and output directory from this table:
+
+| Configuration | Experiment | Algorithms | Learning runs | Output directory |
+| --- | --- | --- | ---: | --- |
+| `experiment_ranking.yml` | Full rankings: 400 arms, k=m=2, gap 0.1; feedback levels: 16 arms, k=6, m in {1,2,3,6} | UIF and RecMaxMinUCB for full rankings; UIF for feedback levels | 120 | `outputs/ranking` |
+| `experiment_epsilon_0_05.yml` | Full rankings with gap 0.05 | UIF, RecMaxMinUCB | 40 | `outputs/epsilon_0_05` |
+| `experiment_epsilon_0_2.yml` | Full rankings with gap 0.2 | UIF, RecMaxMinUCB | 40 | `outputs/epsilon_0_2` |
+| `experiment_mnl.yml` | 30 arms, k=5, m=1; outside weights {0.001,0.003,0.01,0.03} | UIF, AOA-RB-PL, AOA-RB-PL-Adaptive | 240 | `outputs/mnl` |
+| `experiment_stopped.yml` | 30 arms, k=5; caps {1,2,3,4}, outside weights {0,0.1,0.3,1} | UIF | 320 | `outputs/stopped_ranking` |
+| `experiment_diagnostic.yml` | Five offered arms, caps 1–4, nine outside weights | Exact PL probabilities and empirical comparisons | — | `outputs/comparison_diagnostic` |
+
+For example, run the stopped-ranking study and the comparison diagnostic with:
+
+```bash
 ews run experiment_stopped.yml --output outputs/stopped_ranking --workers 2
-```
-
-EWS runs the simulations and computes regret. Change `--workers` to choose the
-number of parallel workers. To resume an interrupted experiment, repeat the same
-command with the same output folder. To inspect saved progress, use:
-
-```bash
-ews inspect outputs/mnl
-```
-
-Run the fixed-length ranking and feedback-level studies from `fixed_length/`:
-
-```bash
-cd fixed_length
-ews run experiment.yml --output ../outputs/fixed_length --workers 2
-ews run experiment_epsilon_0_05.yml --output ../outputs/epsilon_0_05 --workers 2
-ews run experiment_epsilon_0_2.yml --output ../outputs/epsilon_0_2 --workers 2
-cd ..
-```
-
-Run the fixed-assortment comparison diagnostic with:
-
-```bash
 ews run experiment_diagnostic.yml --output outputs/comparison_diagnostic
 ```
 
-Every command runs the simulations, analysis and configured TikZ figures.
+Change `--workers` to choose the number of parallel workers. Resume an interrupted
+experiment by repeating its command with the same output directory. Inspect progress
+with `ews inspect outputs/mnl`. Regenerate figures from saved EWS output with:
 
-## Experiments
+```bash
+ews plot experiment_mnl.yml --output outputs/mnl
+```
 
-The YAML configurations specify instances, algorithm parameters and root seed
-104729. Each learning setting uses 20 independent trials of 1,000,000 rounds,
-for a total of 760 learning runs. The diagnostic samples nine million rankings.
+Use the corresponding configuration and output directory for any other experiment.
+Figures are written under `OUTPUT/analysis/figures/`.
 
-| Experiment | Setting | Algorithms | Runs |
-| --- | --- | --- | ---: |
-| Fixed-length ranking | 400 arms, k=m=2; ranking gaps 0.05, 0.1 and 0.2 | UIF and RecMaxMinUCB | 120 |
-| Feedback level | 16 arms, k=6, m in {1,2,3,6} | UIF | 80 |
-| MNL feedback | 30 arms, k=5, m=1, outside parameter in {0.001,0.003,0.01,0.03} | UIF, AOA-RB-PL and AOA-RB-PL-Adaptive | 240 |
-| Stopped ranking | 30 arms, k=5, m in {1,2,3,4}, outside parameter in {0,0.1,0.3,1} | UIF | 320 |
-| Comparison diagnostic | Five offered arms; caps 1–4 and nine outside parameters | Exact PL probabilities and empirical comparisons | 9 million rankings |
+## Code and Configuration
+
+All experiments share four source files in `experiment_code/`:
+
+- `algorithms.py`: real-pivot UIF, RecMaxMinUCB and both AOA-RB variants.
+- `data.py`: fixed-length, MNL and stopped-ranking PL feedback, plus the comparison diagnostic.
+- `metrics.py`: cumulative mean-preference top-k regret and diagnostic counts.
+- `figures.py`: native TikZ figures and confidence intervals.
+
+The YAML files specify the complete instances, parameter grids, algorithm settings,
+root seed 104729, recording and analysis. EWS manages independent random streams,
+checkpointing and parallel execution. Each learning setting uses 20 independent
+trials of 1,000,000 rounds: 760 learning runs in total. The diagnostic samples nine
+million rankings, sharing races across caps within each outside weight and using
+separate NumPy `SeedSequence` child streams seeded by 104729 across outside weights.
 
 The MNL and stopped-ranking studies share the real-arm parameters
 `[1.00,0.95,0.90,0.85,0.80,0.79,0.78,0.77,0.76,0.75,0.50,0.47,0.44,0.41,0.38,0.35,0.32,0.29,0.26,0.23,0.20,0.18,0.16,0.14,0.12,0.10,0.08,0.06,0.04,0.02]`.
 The gap between the fifth and sixth arms is 0.01.
 
-Regret is cumulative mean-preference top-k regret. Learning curves and error
-bars show pointwise 95% Student-t confidence intervals for the mean over 20
-trials. The diagnostic reports pointwise 95% Wilson intervals for frequencies
-and conditional win probabilities.
+Regret plots show means and pointwise 95% Student-t confidence intervals over the
+20 trials. The diagnostic reports pointwise 95% Wilson intervals for comparison
+frequencies and conditional win probabilities.
 
-## Results and Figures
+## Paper Results
 
-Validated aggregate curves, confidence limits, source checksums and native
-TikZ figures are included in:
+Validated aggregate CSVs, provenance checksums and native TikZ figures are in
+[`reference_results/`](reference_results/):
 
-- [`fixed_length/reference_results/`](fixed_length/reference_results/): ranking comparison, feedback levels and gap variants.
-- [`reference_results/`](reference_results/): MNL study.
-- [`reference_results/stopped_ranking/`](reference_results/stopped_ranking/): stopped-ranking study.
-- [`reference_results/comparison_diagnostic/`](reference_results/comparison_diagnostic/): comparison diagnostic.
+| Directory | Results |
+| --- | --- |
+| [`fixed_length/`](reference_results/fixed_length/) | Full-ranking comparison and feedback levels; subdirectories `epsilon_0_05/` and `epsilon_0_2/` contain the gap variants |
+| [`mnl/`](reference_results/mnl/) | MNL study |
+| [`stopped_ranking/`](reference_results/stopped_ranking/) | Stopped-ranking study |
+| [`comparison_diagnostic/`](reference_results/comparison_diagnostic/) | Comparison frequencies and conditional means |
 
-Figures are written under `OUTPUT/analysis/figures/`. To regenerate them from
-saved EWS output without repeating the simulations, use the matching configuration:
-
-```bash
-ews plot experiment.yml --output outputs/mnl
-ews plot experiment_stopped.yml --output outputs/stopped_ranking
-ews plot experiment_diagnostic.yml --output outputs/comparison_diagnostic
-```
-
-For fixed-length plots, run `ews plot experiment.yml --output ../outputs/fixed_length`
-from `fixed_length/`, or substitute the configuration and output for a gap variant.
+These exports contain the reported results and can be inspected without running
+simulations. Per-run EWS output is generated by the commands above; `ews plot`
+uses that output. The provenance files record the generation of the included
+aggregates. The diagnostic configuration reproduces the included comparison and
+win counts exactly with the pinned NumPy version.
 
 ## Cite This Work
 
@@ -110,6 +111,6 @@ If you use this code in a scientific publication, please cite the manuscript:
 }
 ```
 
-## How to Contact Us
+## Contact
 
-You can write an e-mail to cristiano.migali@polimi.it.
+cristiano.migali@polimi.it

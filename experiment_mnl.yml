@@ -41,11 +41,7 @@ runs:
       horizon: 1000000
       x_scale: 2.0
   grid:
-    data.params.theta0:
-    - 0.001
-    - 0.003
-    - 0.01
-    - 0.03
+    data.params.theta0: [0.001, 0.003, 0.01, 0.03]
 execution:
   workers: 2
   checkpoint_seconds: 120
@@ -54,8 +50,7 @@ execution:
   compression: true
 recording:
   every_steps: 1
-  fields:
-  - action
+  fields: [action]
   buffer_bytes: 1048576
   retention: until_analyzed
   metric_retention: keep
@@ -68,10 +63,7 @@ analysis:
     type: experiment_code.metrics:TopKRegret
   aggregator:
     type: repeated_runs
-    group_by:
-    - group
-    - algorithm.name
-    - data.params.theta0
+    group_by: [group, algorithm.name, data.params.theta0]
     reduce_over: repetition
     summary: mean
     uncertainty: standard_error
