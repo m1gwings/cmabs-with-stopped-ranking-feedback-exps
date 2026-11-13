@@ -83,13 +83,7 @@ class MNLFigures:
 COLORS = ["blue!75!black", "orange!90!black", "teal!80!black", "violet!85!black"]
 
 
-def coordinates(rows, xkey, ykey):
-    return " ".join(
-        f"({float(r[xkey]) / 1000000:.12g},{float(r[ykey]) / 1000:.12g})" for r in rows
-    )
-
-
-def stopped_figures(final, curves, source):
+def stopped_figures(final, source):
     out = source
     out.mkdir(parents=True, exist_ok=True)
     common = r"width=\linewidth,height=.72\linewidth,grid=major,grid style={gray!20},legend style={font=\small,cells={anchor=west}},tick label style={font=\small},label style={font=\small},scaled y ticks=false,ylabel={Cumulative regret ($\times 10^3$)}"
@@ -119,85 +113,25 @@ def stopped_figures(final, curves, source):
         ]
     lines += [r"\end{axis}", r"\end{tikzpicture}", ""]
     (out / "final_regret_vs_m.tikz").write_text("\n".join(lines))
-    lines = [
-        "% Requires the PGFPlots fillbetween library.",
-        r"\begin{tikzpicture}",
-        r"\begin{axis}["
-        + common
-        + r",xlabel={Round $t$ ($\times 10^6$)},scaled x ticks=false,xtick={0,.25,.5,.75,1},xmin=0,xmax=1,ymin=0,legend pos=south east]",
-    ]
-    for m, color in zip([1, 2, 3, 4], COLORS):
-        selected = sorted(
-            [
-                r
-                for r in curves
-                if int(r["data.params.m"]) == m
-                and float(r["data.params.theta0"]) == 0.3
-            ],
-            key=lambda r: float(r["x"]),
-        )
-        for r in selected:
-            r["lower"] = float(r["mean"]) - float(r["half_width"])
-            r["upper"] = float(r["mean"]) + float(r["half_width"])
-        for bound in ["lower", "upper"]:
-            lines.append(
-                r"\addplot[name path="
-                + f"{bound}{m}"
-                + r",draw=none,forget plot] coordinates {"
-                + coordinates(selected, "x", bound)
-                + "};"
-            )
-        lines += [
-            r"\addplot["
-            + color
-            + r",fill opacity=.12,forget plot] fill between[of="
-            + f"lower{m} and upper{m}"
-            + "];",
-            r"\addplot["
-            + color
-            + r",thick,no marks] coordinates {"
-            + coordinates(selected, "x", "mean")
-            + "};",
-            r"\addlegendentry{$m=" + str(m) + "$}",
-        ]
-    lines += [r"\end{axis}", r"\end{tikzpicture}", ""]
-    (out / "cumulative_regret_theta0_0_3.tikz").write_text("\n".join(lines))
     return out
 
 
 class StoppedRankingFigures:
-    """Stopped-ranking panels from EWS aggregates, with Student-t intervals."""
+    """Final stopped-ranking regret from EWS aggregates, with Student-t intervals."""
 
     def plot(self, summaries, figure, output_dir):
-        curves, final = [], []
+        final = []
         for summary in summaries:
             if summary.uncertainty_kind != "standard_error" or summary.count < 2:
                 raise ValueError(
                     "Stopped-ranking plots require repeated-run standard errors"
                 )
-            half = t.ppf(0.975, summary.count - 1) * summary.uncertainty
-            rows = [
-                dict(
-                    summary.labels,
-                    x=x,
-                    mean=mean,
-                    count=summary.count,
-                    uncertainty=error,
-                    half_width=width,
-                    ci95_upper=mean + width,
-                )
-                for x, mean, error, width in zip(
-                    summary.x, summary.mean, summary.uncertainty, half
-                )
-            ]
-            curves.extend(rows)
-            final.append(rows[-1])
+            mean = float(summary.mean[-1])
+            half = t.ppf(0.975, summary.count - 1) * float(summary.uncertainty[-1])
+            final.append(dict(summary.labels, mean=mean, ci95_upper=mean + half))
         output = Path(output_dir)
-        stopped_figures(final, curves, output)
-        return [
-            output / "final_regret_vs_m.tikz",
-            output / "cumulative_regret_theta0_0_3.tikz",
-        ]
+        stopped_figures(final, output)
+        return [output / "final_regret_vs_m.tikz"]
 
 
 class PaperFigures:

@@ -83,7 +83,7 @@ Aggregate CSVs, provenance checksums and native TikZ figures are in
 | --- | --- |
 | [`fixed_length/`](reference_results/fixed_length/) | Full-ranking comparison and feedback levels; subdirectories `epsilon_0_05/` and `epsilon_0_2/` contain the gap variants |
 | [`mnl/`](reference_results/mnl/) | MNL study |
-| [`stopped_ranking/`](reference_results/stopped_ranking/) | Stopped-ranking study |
+| [`stopped_ranking/`](reference_results/stopped_ranking/) | Final regret by ranking cap and outside weight |
 | [`comparison_diagnostic/`](reference_results/comparison_diagnostic/) | Comparison frequencies and conditional means |
 
 These exports contain the reported results and can be inspected without running

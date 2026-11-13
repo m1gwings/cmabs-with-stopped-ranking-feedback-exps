@@ -22,11 +22,10 @@
   },
   "files": {
     "final_regret.csv": "0e8155457e4c043bd430dcddd0ab80d9f6242f64ae74af2d303af41ae60212af",
-    "regret.csv": "bf13f8de8d3e8b5c968b0060ccca8beda27b9d5e278cd2732ce974b02718b6ed",
-    "figures/cumulative_regret_theta0_0_3.tikz": "8fa40c7fbe7265a72858481c91b36d994c81af599144cc3feb6aea01eefbc263",
     "figures/final_regret_vs_m.tikz": "cc1eee3f8c43eb73938bcc8c10de24d6b51d25786dd6b25d3e42e7a23b3c2003"
   },
   "simulation_source_commit": "4a564db",
   "plot_generator": "scripts/plot_stopped_results.py",
-  "plot_generator_sha256": "3c122e85844b2987c64e2373cb9abd804c96918a434922d49ec63782d9947083"
+  "plot_generator_sha256": "3c122e85844b2987c64e2373cb9abd804c96918a434922d49ec63782d9947083",
+  "export_scope": "Final-horizon aggregate regret and confidence intervals for all 16 settings."
 }
